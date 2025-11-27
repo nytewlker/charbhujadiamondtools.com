@@ -135,7 +135,7 @@
                         <a href="mailto:cdtools8189@gmail.com" class="text-gray-50 hover:text-primary transition-colors block">cdtools8189@gmail.com</a>
                     </div>
                 </div>
-                <a href="#" class="mt-6 inline-block w-full bg-primary hover:bg-primary/90 text-white font-heading font-bold px-6 py-3 text-center transition duration-300">
+                <a href="#" class="mt-6 inline-block w-full bg-primary hover:bg-primary/90 text-white  font-bold px-6 py-3 text-center transition duration-300">
                     Request a Quote
                 </a>
             </div>
@@ -146,7 +146,7 @@
         <div class="border-t border-white/10 py-4">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
                 <p class="text-accent text-sm">
-                    &copy; 2015 - <span id="year"></span> <span class="font-heading font-bold text-white">CHARBHUJA DIAMOND TOOLS</span> | All Rights Reserved
+                    &copy; 2015 - <span id="year"></span> <span class=" font-bold text-white">CHARBHUJA DIAMOND TOOLS</span> | All Rights Reserved
                 </p>
                 <p>Designed by <a href="https://matrixwebinfotech.com/" class="text-primary hover:underline">Matrix Web Infotech</a></p>
             </div>
