@@ -88,16 +88,16 @@
                         </svg>
                     </button>
                     <div class="absolute left-0 mt-0 w-full bg-dark border border-accent hidden group-hover:block shadow-lg z-50">
-                        <a href="products.php?type=quarrying" class="block px-4 py-3 hover:bg-white/10 text-white">QUARRYING WIRE SAW</a>
-                        <a href="products.php?type=diamond" class="block px-4 py-3 hover:bg-white/10 text-white">DIAMOND WIRE SAW</a>
-                        <a href="products.php?type=mono" class="block px-4 py-3 hover:bg-white/10 text-white">MONO(STATIONARY) WIRE</a>
-                        <a href="products.php?type=squaring" class="block px-4 py-3 hover:bg-white/10 text-white">SQUARING WIRE SAW</a>
-                        <a href="products.php?type=profiling" class="block px-4 py-3 hover:bg-white/10 text-white">PROFILING WIRESAW</a>
-                        <a href="products.php?type=beads" class="block px-4 py-3 hover:bg-white/10 text-white">DIAMOND WIRESAW BEADS</a>
+                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">QUARRYING WIRE SAW</a>
+                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">DIAMOND WIRE SAW</a>
+                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">MONO(STATIONARY) WIRE</a>
+                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">SQUARING WIRE SAW</a>
+                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">PROFILING WIRESAW</a>
+                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">DIAMOND WIRESAW BEADS</a>
                     </div>
                 </div>
 
-                <a href="import-export.php" class="px-6 py-5  bg-white/40  text-white hover:text-primary font-medium">IMPORT/EXPORT</a>
+                <a href="#" class="px-6 py-5  bg-white/40  text-white hover:text-primary font-medium">IMPORT/EXPORT</a>
                 <a class="group relative px-6 py-5 overflow-hidden bg-primary transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]" href="contact.php">
                     <span class="relative z-10 flex items-center space-x-3">
                         <span class="text-sm tracking-[0.25em] font-medium text-white font-tagline">CONTACT US</span>
