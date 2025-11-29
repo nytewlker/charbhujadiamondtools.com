@@ -1,9 +1,22 @@
-<?php include 'include/header.php'; ?>
+<?php 
+include 'include/header.php';
+include 'product-data.php';
+
+// Get product slug from URL or default to quarrying-wire-saw
+$productSlug = isset($_GET['product']) ? $_GET['product'] : 'quarrying-wire-saw';
+$product = getProduct($productSlug);
+
+// Redirect if product not found
+if (!$product) {
+    header('Location: products.php');
+    exit;
+}
+?>
 
 <!-- Product Hero Section -->
 <section class="relative h-[60vh] w-full overflow-hidden bg-black">
     <div class="absolute inset-0">
-        <img src="assets/images/products/quarrying-wire-hero.jpg" alt="Quarrying Wire Saw" class="w-full h-full object-cover">
+        <img src="<?= $product['hero']['image'] ?>" alt="<?= $product['name'] ?>" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
     </div>
@@ -14,28 +27,28 @@
                 <!-- Breadcrumb -->
                 <div class="mb-6">
                     <nav class="flex items-center space-x-2 text-sm text-white/60 font-tagline">
-                        <a href="index1.php" class="hover:text-primary transition">Home</a>
+                        <a href="index.php" class="hover:text-primary transition">Home</a>
                         <span>/</span>
                         <a href="products.php" class="hover:text-primary transition">Products</a>
                         <span>/</span>
-                        <span class="text-white">Quarrying Wire Saw</span>
+                        <span class="text-white"><?= $product['name'] ?></span>
                     </nav>
                 </div>
 
                 <div class="mb-6 inline-block">
                     <div class="flex items-center space-x-3 text-primary">
                         <div class="w-12 h-px bg-primary"></div>
-                        <span class="text-xs tracking-[0.3em] font-light uppercase font-tagline">Premium Quality</span>
+                        <span class="text-xs tracking-[0.3em] font-light uppercase font-tagline"><?= $product['hero']['tagline'] ?></span>
                     </div>
                 </div>
 
                 <h1 class="text-5xl md:text-7xl font-light leading-tight mb-6 font-appcrave">
-                    <span class="text-white">Quarrying</span><br>
-                    <span class="text-primary font-medium">Wire Saw</span>
+                    <span class="text-white"><?= explode(' ', $product['name'])[0] ?></span><br>
+                    <span class="text-primary font-medium"><?= implode(' ', array_slice(explode(' ', $product['name']), 1)) ?></span>
                 </h1>
 
                 <p class="text-lg md:text-xl text-white/70 font-light font-tagline mb-8">
-                    Heavy-duty diamond wire saw engineered for large-scale stone extraction in quarries. Maximum cutting efficiency with minimal operational costs.
+                    <?= $product['hero']['description'] ?>
                 </p>
 
                 <div class="flex flex-wrap gap-4">
@@ -61,22 +74,12 @@
 <section class="w-full bg-primary py-6 shadow-lg">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
+            <?php foreach ($product['quickStats'] as $stat): ?>
             <div>
-                <div class="text-3xl font-bold mb-1 font-appcrave">11.5mm</div>
-                <p class="text-sm font-tagline opacity-90">Wire Diameter</p>
+                <div class="text-3xl font-bold mb-1 font-appcrave"><?= $stat['value'] ?></div>
+                <p class="text-sm font-tagline opacity-90"><?= $stat['label'] ?></p>
             </div>
-            <div>
-                <div class="text-3xl font-bold mb-1 font-appcrave">40 beads/m</div>
-                <p class="text-sm font-tagline opacity-90">Bead Density</p>
-            </div>
-            <div>
-                <div class="text-3xl font-bold mb-1 font-appcrave">2200 MPa</div>
-                <p class="text-sm font-tagline opacity-90">Tensile Strength</p>
-            </div>
-            <div>
-                <div class="text-3xl font-bold mb-1 font-appcrave">5-10 m²/h</div>
-                <p class="text-sm font-tagline opacity-90">Cutting Speed</p>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -88,15 +91,15 @@
             <!-- Image Gallery -->
             <div class="space-y-4">
                 <div class="relative overflow-hidden shadow-2xl">
-                    <img src="assets/images/products/quarrying-main.jpg" alt="Quarrying Wire Saw Main" class="w-full h-[500px] object-cover">
+                    <img src="<?= $product['overview']['mainImage'] ?>" alt="<?= $product['name'] ?>" class="w-full h-[500px] object-cover">
                     <div class="absolute top-4 right-4 bg-primary text-white px-4 py-2 text-sm font-tagline">
-                        Made in India
+                        <?= $product['overview']['badge'] ?>
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-4">
-                    <img src="assets/images/products/quarrying-detail-1.jpg" alt="Detail 1" class="w-full h-32 object-cover shadow-lg cursor-pointer hover:scale-105 transition">
-                    <img src="assets/images/products/quarrying-detail-2.jpg" alt="Detail 2" class="w-full h-32 object-cover shadow-lg cursor-pointer hover:scale-105 transition">
-                    <img src="assets/images/products/quarrying-detail-3.jpg" alt="Detail 3" class="w-full h-32 object-cover shadow-lg cursor-pointer hover:scale-105 transition">
+                    <?php foreach ($product['overview']['galleryImages'] as $img): ?>
+                    <img src="<?= $img ?>" alt="Detail" class="w-full h-32 object-cover shadow-lg cursor-pointer hover:scale-105 transition">
+                    <?php endforeach; ?>
                 </div>
             </div>
 
@@ -114,15 +117,16 @@
                 </h2>
 
                 <p class="text-dark mb-4 font-tagline leading-relaxed">
-                    Our Quarrying Wire Saw is specifically designed for high-volume stone extraction in granite, marble, and limestone quarries. With reinforced steel cable construction and premium diamond beads, this wire delivers exceptional performance even in the most demanding cutting conditions.
+                    <?= $product['overview']['description1'] ?>
                 </p>
 
                 <p class="text-dark mb-6 font-tagline leading-relaxed">
-                    Engineered to minimize downtime and maximize productivity, our quarrying wire saw provides consistent cutting performance with extended service life. The optimal bead spacing and high-tensile wire rope ensure smooth operation and reduced operational costs.
+                    <?= $product['overview']['description2'] ?>
                 </p>
 
                 <!-- Key Features -->
                 <div class="space-y-3 mb-8">
+                    <?php foreach ($product['overview']['keyFeatures'] as $feature): ?>
                     <div class="flex items-start gap-3">
                         <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                             <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,46 +134,11 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="font-medium text-dark font-tagline">High Tensile Strength Wire Rope</h4>
-                            <p class="text-dark text-sm font-tagline">2200 MPa strength ensures durability in heavy-duty applications</p>
+                            <h4 class="font-medium text-dark font-tagline"><?= $feature['title'] ?></h4>
+                            <p class="text-dark text-sm font-tagline"><?= $feature['desc'] ?></p>
                         </div>
                     </div>
-
-                    <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="font-medium text-dark font-tagline">Premium Diamond Beads</h4>
-                            <p class="text-dark text-sm font-tagline">Superior cutting efficiency with consistent performance</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="font-medium text-dark font-tagline">Optimized Bead Spacing</h4>
-                            <p class="text-dark text-sm font-tagline">40 beads per meter for balanced cutting and longevity</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="font-medium text-dark font-tagline">Extended Service Life</h4>
-                            <p class="text-dark text-sm font-tagline">Cuts 1000-1500 m² per wire under optimal conditions</p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <!-- Certifications -->
@@ -179,7 +148,7 @@
                     </svg>
                     <div>
                         <h4 class="font-medium text-dark font-tagline">Quality Certified</h4>
-                        <p class="text-sm text-dark font-tagline">ISO 9001:2015 | CE Certified | 100% Quality Tested</p>
+                        <p class="text-sm text-dark font-tagline"><?= $product['overview']['certifications'] ?></p>
                     </div>
                 </div>
             </div>
@@ -204,71 +173,17 @@
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Application 1 -->
+            <?php foreach ($product['applications'] as $app): ?>
             <div class="bg-white p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
                 <div class="w-full h-48 mb-6 overflow-hidden">
-                    <img src="assets/images/applications/granite-quarry.jpg" alt="Granite Quarrying" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                    <img src="<?= $app['image'] ?>" alt="<?= $app['title'] ?>" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
                 </div>
-                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Granite Quarrying</h3>
+                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave"><?= $app['title'] ?></h3>
                 <p class="text-dark font-tagline text-sm leading-relaxed">
-                    Exceptional performance in hard granite extraction with consistent cutting speed and minimal wire breakage. Ideal for large block cutting.
+                    <?= $app['desc'] ?>
                 </p>
             </div>
-
-            <!-- Application 2 -->
-            <div class="bg-white p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
-                <div class="w-full h-48 mb-6 overflow-hidden">
-                    <img src="assets/images/applications/marble-quarry.jpg" alt="Marble Quarrying" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-                </div>
-                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Marble Extraction</h3>
-                <p class="text-dark font-tagline text-sm leading-relaxed">
-                    Smooth, clean cuts in marble quarries with reduced material wastage. Perfect for premium quality block extraction.
-                </p>
-            </div>
-
-            <!-- Application 3 -->
-            <div class="bg-white p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
-                <div class="w-full h-48 mb-6 overflow-hidden">
-                    <img src="assets/images/applications/limestone-quarry.jpg" alt="Limestone Quarrying" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-                </div>
-                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Limestone Quarrying</h3>
-                <p class="text-dark font-tagline text-sm leading-relaxed">
-                    Efficient cutting in limestone and sandstone quarries. Cost-effective solution for high-volume operations.
-                </p>
-            </div>
-
-            <!-- Application 4 -->
-            <div class="bg-white p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
-                <div class="w-full h-48 mb-6 overflow-hidden">
-                    <img src="assets/images/applications/basalt-quarry.jpg" alt="Basalt Quarrying" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-                </div>
-                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Basalt & Hard Stone</h3>
-                <p class="text-dark font-tagline text-sm leading-relaxed">
-                    Specially formulated for extremely hard stone types. High diamond concentration ensures effective cutting.
-                </p>
-            </div>
-
-            <!-- Application 5 -->
-            <div class="bg-white p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
-                <div class="w-full h-48 mb-6 overflow-hidden">
-                    <img src="assets/images/applications/block-squaring.jpg" alt="Block Squaring" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-                </div>
-                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Block Squaring</h3>
-                <p class="text-dark font-tagline text-sm leading-relaxed">
-                    Precise squaring and trimming of rough blocks. Reduces waste and improves block quality for further processing.
-                </p>
-            </div>
-
-            <!-- Application 6 -->
-            <div class="bg-white p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
-                <div class="w-full h-48 mb-6 overflow-hidden">
-                    <img src="assets/images/applications/large-blocks.jpg" alt="Large Blocks" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-                </div>
-                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Large Block Cutting</h3>
-                <p class="text-dark font-tagline text-sm leading-relaxed">
-                    Designed for cutting massive stone blocks in primary extraction. High stability and controlled cutting path.
-                </p>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -300,66 +215,12 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-stone-200">
+                        <?php foreach ($product['specifications'] as $spec): ?>
                         <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Wire Diameter</td>
-                            <td class="px-6 py-4 font-tagline text-dark">11.5mm ± 0.2mm</td>
+                            <td class="px-6 py-4 font-tagline text-dark font-medium"><?= $spec['param'] ?></td>
+                            <td class="px-6 py-4 font-tagline text-dark"><?= $spec['spec'] ?></td>
                         </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Bead Diameter</td>
-                            <td class="px-6 py-4 font-tagline text-dark">10.5mm - 11.0mm</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Bead Spacing</td>
-                            <td class="px-6 py-4 font-tagline text-dark">40 beads/meter</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Wire Rope Construction</td>
-                            <td class="px-6 py-4 font-tagline text-dark">6×19 + 1 FC / 7×7 structure</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Breaking Load (Tensile Strength)</td>
-                            <td class="px-6 py-4 font-tagline text-dark">≥ 2200 MPa (≥ 2500 kg)</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Diamond Concentration</td>
-                            <td class="px-6 py-4 font-tagline text-dark">25% - 30% (customizable)</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Diamond Mesh Size</td>
-                            <td class="px-6 py-4 font-tagline text-dark">30/35, 35/40, 40/45, 45/50</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Bead Connection Method</td>
-                            <td class="px-6 py-4 font-tagline text-dark">Injection molding / Rubber + Spring</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Cutting Speed</td>
-                            <td class="px-6 py-4 font-tagline text-dark">5-10 m²/hour (varies by stone type)</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Lifespan (Granite)</td>
-                            <td class="px-6 py-4 font-tagline text-dark">1000-1500 m² per wire</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Recommended Cutting Speed</td>
-                            <td class="px-6 py-4 font-tagline text-dark">28-32 m/s (linear speed)</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Recommended Wire Tension</td>
-                            <td class="px-6 py-4 font-tagline text-dark">800-1200 kg</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Water Flow Rate</td>
-                            <td class="px-6 py-4 font-tagline text-dark">80-120 liters/minute</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Standard Length</td>
-                            <td class="px-6 py-4 font-tagline text-dark">Custom (typically 20m - 80m loops)</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 transition">
-                            <td class="px-6 py-4 font-tagline text-dark font-medium">Packaging</td>
-                            <td class="px-6 py-4 font-tagline text-dark">Wooden case or carton box</td>
-                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -402,86 +263,23 @@
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Advantage 1 -->
+            <?php foreach ($product['advantages'] as $adv): ?>
             <div class="bg-white p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-primary">
                 <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
                     <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">High Cutting Efficiency</h3>
+                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave"><?= $adv['title'] ?></h3>
                 <p class="text-dark font-tagline text-sm leading-relaxed">
-                    Optimized bead design and diamond distribution deliver faster cutting speeds, reducing extraction time and increasing daily output.
+                    <?= $adv['desc'] ?>
                 </p>
             </div>
-
-            <!-- Advantage 2 -->
-            <div class="bg-white p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-primary">
-                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Cost-Effective Operation</h3>
-                <p class="text-dark font-tagline text-sm leading-relaxed">
-                    Extended wire life and reduced power consumption translate to lower cost per square meter, improving profitability.
-                </p>
-            </div>
-
-            <!-- Advantage 3 -->
-            <div class="bg-white p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-primary">
-                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-</svg>
-</div>
-<h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Superior Durability</h3>
-<p class="text-dark font-tagline text-sm leading-relaxed">
-High-tensile steel wire rope with reinforced bead connections ensures minimal wire breakage even in demanding conditions.
-</p>
-</div>
-        <!-- Advantage 4 -->
-        <div class="bg-white p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-primary">
-            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                </svg>
-            </div>
-            <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Smooth Cutting Surface</h3>
-            <p class="text-dark font-tagline text-sm leading-relaxed">
-                Precision-engineered beads create clean, smooth cuts with minimal surface roughness, reducing secondary processing requirements.
-            </p>
-        </div>
-
-        <!-- Advantage 5 -->
-        <div class="bg-white p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-primary">
-            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-            </div>
-            <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Customizable Solutions</h3>
-            <p class="text-dark font-tagline text-sm leading-relaxed">
-                Tailored specifications available for different stone types, hardness levels, and specific quarry requirements.
-            </p>
-        </div>
-
-        <!-- Advantage 6 -->
-        <div class="bg-white p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-primary">
-            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-            </div>
-            <h3 class="text-xl font-medium text-dark mb-3 font-appcrave">Technical Support</h3>
-            <p class="text-dark font-tagline text-sm leading-relaxed">
-                Expert guidance on wire selection, installation, operation parameters, and troubleshooting from our experienced team.
-            </p>
+            <?php endforeach; ?>
         </div>
     </div>
-</div>
 </section>
+
 <!-- Operating Guidelines -->
 <section class="py-16 bg-white">
     <div class="container mx-auto px-6 lg:px-16">
@@ -497,147 +295,36 @@ High-tensile steel wire rope with reinforced bead connections ensures minimal wi
                 Operating <span class="text-primary font-medium">Guidelines</span>
             </h2>
         </div>
-    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-        <!-- Installation -->
-        <div class="bg-gradient-to-br from-stone-50 to-white p-8 shadow-lg">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+        <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+            <?php $guidelineKeys = ['installation', 'operation', 'maintenance', 'safety'];
+            $guideTitles = ['Installation', 'Operation', 'Maintenance', 'Safety'];
+            $guideIcons = ['gears', 'play-circle', 'wrench', 'shield-alert'];
+            
+            foreach ($guidelineKeys as $idx => $key): ?>
+            <div class="bg-gradient-to-br from-stone-50 to-white p-8 shadow-lg">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-medium text-dark font-appcrave"><?= $guideTitles[$idx] ?></h3>
                 </div>
-                <h3 class="text-2xl font-medium text-dark font-appcrave">Installation</h3>
+                <ul class="space-y-3 text-dark font-tagline text-sm">
+                    <?php foreach ($product['guidelines'][$key] as $item): ?>
+                    <li class="flex items-start gap-2">
+                        <span class="text-primary font-bold">•</span>
+                        <span><?= $item ?></span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
-            <ul class="space-y-3 text-dark font-tagline text-sm">
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Inspect wire for any damage before installation</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Ensure proper wire tension (800-1200 kg recommended)</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Check pulley alignment and groove condition</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Verify water cooling system is functioning properly</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Run wire at low speed initially to seat beads properly</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Operation -->
-        <div class="bg-gradient-to-br from-stone-50 to-white p-8 shadow-lg">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-medium text-dark font-appcrave">Operation</h3>
-            </div>
-            <ul class="space-y-3 text-dark font-tagline text-sm">
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Maintain linear speed of 28-32 m/s for optimal performance</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Ensure continuous water flow (80-120 liters/minute)</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Monitor wire tension throughout operation</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Avoid sudden starts and stops to prevent wire breakage</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Regularly check for unusual vibrations or noises</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Maintenance -->
-        <div class="bg-gradient-to-br from-stone-50 to-white p-8 shadow-lg">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-medium text-dark font-appcrave">Maintenance</h3>
-            </div>
-            <ul class="space-y-3 text-dark font-tagline text-sm">
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Clean wire and beads after each shift</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Inspect pulleys and bearings for wear weekly</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Check water nozzles for blockages regularly</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Lubricate machine moving parts as per schedule</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Store unused wire in dry, covered conditions</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Safety -->
-        <div class="bg-gradient-to-br from-stone-50 to-white p-8 shadow-lg">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-medium text-dark font-appcrave">Safety</h3>
-            </div>
-            <ul class="space-y-3 text-dark font-tagline text-sm">
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Wear appropriate PPE (goggles, gloves, hearing protection)</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Keep safe distance from operating wire saw</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Never touch wire during operation</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Ensure emergency stop button is accessible</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-primary font-bold">•</span>
-                    <span>Train operators on proper safety procedures</span>
-                </li>
-            </ul>
+            <?php endforeach; ?>
         </div>
     </div>
-</div>
 </section>
+
 <!-- Contact Form Section -->
 <section id="contact-form" class="py-16 bg-gradient-to-b from-stone-50 to-white">
     <div class="container mx-auto px-6 lg:px-16">
@@ -817,53 +504,26 @@ High-tensile steel wire rope with reinforced bead connections ensures minimal wi
                 Related <span class="text-primary font-medium">Products</span>
             </h2>
         </div>
-    <div class="grid md:grid-cols-3 gap-8">
-        <!-- Product 1 -->
-        <a href="diamond-wire-saw.php" class="group block bg-white shadow-lg hover:shadow-2xl transition-all duration-300">
-            <div class="w-full h-64 overflow-hidden">
-                <img src="assets/images/products/diamond-wire.jpg" alt="Diamond WireSaw" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-</div>
-<div class="p-6">
-<h3 class="text-xl font-medium text-dark mb-2 font-appcrave">Diamond Wire Saw</h3>
-<p class="text-dark text-sm font-tagline mb-4">Multi-purpose diamond wire for block squaring and profiling operations.</p>
-<span class="inline-flex items-center text-primary font-medium font-tagline">
-View Details
-<svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-</svg>
-</span>
-</div>
-</a>        <!-- Product 2 -->
-        <a href="mono-wire.php" class="group block bg-white shadow-lg hover:shadow-2xl transition-all duration-300">
-            <div class="w-full h-64 overflow-hidden">
-                <img src="assets/images/products/mono-wire.jpg" alt="Mono Wire" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-                <h3 class="text-xl font-medium text-dark mb-2 font-appcrave">Mono (Stationary) Wire</h3>
-                <p class="text-dark text-sm font-tagline mb-4">Stationary wire saw for precise cutting in stone processing facilities.</p>
-                <span class="inline-flex items-center text-primary font-medium font-tagline">
-                    View Details
-                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                </span>
-            </div>
-        </a>        <!-- Product 3 -->
-        <a href="diamond-beads.php" class="group block bg-white shadow-lg hover:shadow-2xl transition-all duration-300">
-            <div class="w-full h-64 overflow-hidden">
-                <img src="assets/images/products/diamond-beads.jpg" alt="Diamond Beads" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-                <h3 class="text-xl font-medium text-dark mb-2 font-appcrave">Diamond Wiresaw Beads</h3>
-                <p class="text-dark text-sm font-tagline mb-4">Premium diamond beads for wire saw assembly and replacements.</p>
-                <span class="inline-flex items-center text-primary font-medium font-tagline">
-                    View Details
-                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                </span>
-            </div>
-        </a>
+        <div class="grid md:grid-cols-3 gap-8">
+            <?php foreach ($product['relatedProducts'] as $rel): ?>
+            <a href="product.php?product=<?= $rel['slug'] ?>" class="group block bg-white shadow-lg hover:shadow-2xl transition-all duration-300">
+                <div class="w-full h-64 overflow-hidden">
+                    <img src="<?= $rel['image'] ?>" alt="<?= $rel['title'] ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-medium text-dark mb-2 font-appcrave"><?= $rel['title'] ?></h3>
+                    <p class="text-dark text-sm font-tagline mb-4"><?= $rel['desc'] ?></p>
+                    <span class="inline-flex items-center text-primary font-medium font-tagline">
+                        View Details
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </span>
+                </div>
+            </a>
+            <?php endforeach; ?>
+        </div>
     </div>
-</div>
-</section><?php include 'include/footer.php'; ?>
+</section>
+
+<?php include 'include/footer.php'; ?>

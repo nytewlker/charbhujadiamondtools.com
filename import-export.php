@@ -1,5 +1,4 @@
-I'll create a comprehensive import/export page that showcases your workflow and capabilities across international markets.
-php<?php include 'include/header.php'; ?>
+<?php include 'include/header.php'; ?>
 
 <!-- Hero Header -->
 <section class="relative h-[50vh] w-full overflow-hidden bg-black">

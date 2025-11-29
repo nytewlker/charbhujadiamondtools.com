@@ -4,7 +4,7 @@
 $slides = [
     [
         'id' => 1,
-        'image' => 'assets/images/slider/01.jpg',
+        'image' => 'assets/images/slider/003.jpeg',
         'alt' => 'Diamond Wire Saw Manufacturing',
         'title' => 'Where quality',
         'subtitle' => 'meets precision for',
@@ -24,7 +24,7 @@ $slides = [
     ],
     [
         'id' => 2,
-        'image' => 'assets/images/slider/03.jpg',
+        'image' => 'assets/images/slider/01.jpg',
         'alt' => 'Precision Diamond Tools',
         'title' => 'Crafting excellence',
         'subtitle' => 'in every cut',
@@ -273,7 +273,7 @@ $slides = [
 
         <!-- Left: Image + Badge -->
         <div class="relative  overflow-hidden shadow-lg">
-            <img src="assets/images/3.jpg" alt="Factory and team" class="w-full h-96 object-cover">
+            <img src="assets/images/slider/WhatsApp Image 2025-11-28 at 20.12.33.jpeg" alt="Factory and team" class="w-full h-[500px] object-cover">
 
         </div>
     </div>
@@ -302,12 +302,12 @@ $slides = [
         <?php
         // Product tiles array
         $products = [
-            ['title' => 'Quarrying Wire Saw', 'image' => 'assets/images/product.jpg', 'link' => '/products/quarrying-wire-saw.php'],
-            ['title' => 'Diamond Wire Saw',  'image' => 'assets/images/product.jpg',  'link' => '/products/diamond-wire-saw.php'],
-            ['title' => 'Mono (Stationary) Wire', 'image' => 'assets/images/product.jpg', 'link' => '/products/mono-wire.php'],
-            ['title' => 'Squaring Wire Saw', 'image' => 'assets/images/product.jpg', 'link' => '/products/squaring-wire-saw.php'],
-            ['title' => 'Profiling Wiresaw', 'image' => 'assets/images/product.jpg', 'link' => '/products/profiling-wiresaw.php'],
-            ['title' => 'Diamond Wiresaw Beads', 'image' => 'assets/images/product.jpg', 'link' => '/products/diamond-beads.php'],
+            ['title' => 'Quarrying Wire Saw', 'image' => 'assets/images/product/Quarrying Wire Saw.jpg', 'link' => '/products/quarrying-wire-saw.php'],
+            ['title' => 'Diamond Wire Saw',  'image' => 'assets/images/product/Diamond Wire Saw.jpg',  'link' => '/products/diamond-wire-saw.php'],
+            ['title' => 'Mono (Stationary) Wire', 'image' => 'assets/images/product/Mono (Stationary) Wire.jpg', 'link' => '/products/mono-wire.php'],
+            ['title' => 'Squaring Wire Saw', 'image' => 'assets/images/product/Squaring Wire Saw.jpg', 'link' => '/products/squaring-wire-saw.php'],
+            ['title' => 'Profiling Wiresaw', 'image' => 'assets/images/product/Profiling Wiresaw.jpg', 'link' => '/products/profiling-wiresaw.php'],
+            ['title' => 'Diamond Wiresaw Beads', 'image' => 'assets/images/product/Diamond Wiresaw Beads.jpg', 'link' => '/products/diamond-beads.php'],
         ];
         ?>
 
@@ -412,7 +412,7 @@ $slides = [
                 return s.getBoundingClientRect().width;
             }
 
-            function setTrackPosition(instant=false) {
+            function setTrackPosition(instant = false) {
                 const translateX = -currentIndex * slideWidth();
                 if (instant) {
                     track.style.transition = 'none';
@@ -514,6 +514,7 @@ $slides = [
                 cancelAnimationFrame(animationFrame);
                 resetAutoplay();
             }
+
             function pointerMove(e) {
                 if (!isDragging) return;
                 const x = (e.touches ? e.touches[0].clientX : e.clientX);
@@ -521,6 +522,7 @@ $slides = [
                 currentTranslate = prevTranslate + dx;
                 track.style.transform = `translateX(${currentTranslate}px)`;
             }
+
             function pointerUp(e) {
                 if (!isDragging) return;
                 isDragging = false;
@@ -539,8 +541,12 @@ $slides = [
             }
 
             // Attach pointer events to the track
-            track.addEventListener('touchstart', pointerDown, {passive:false});
-            track.addEventListener('touchmove', pointerMove, {passive:false});
+            track.addEventListener('touchstart', pointerDown, {
+                passive: false
+            });
+            track.addEventListener('touchmove', pointerMove, {
+                passive: false
+            });
             track.addEventListener('touchend', pointerUp);
             track.addEventListener('mousedown', pointerDown);
             window.addEventListener('mousemove', pointerMove);
@@ -561,12 +567,14 @@ $slides = [
                 stopAutoplay();
                 autoplayTimer = setInterval(() => next(), autoplayInterval);
             }
+
             function stopAutoplay() {
                 if (autoplayTimer) {
                     clearInterval(autoplayTimer);
                     autoplayTimer = null;
                 }
             }
+
             function resetAutoplay() {
                 stopAutoplay();
                 startAutoplay();
@@ -632,7 +640,7 @@ $slides = [
         <!-- Infinite Scrolling Flags -->
         <div class="relative w-full overflow-hidden">
             <div class="flex gap-10 bg-white items-center animate-scroll-infinite">
-                
+
                 <!-- Duplicate flags twice for seamless looping -->
                 <img src="assets/images/flags/1.png" class="h-24 object-contain opacity-90" alt="">
                 <img src="assets/images/flags/2.png" class="h-24 object-contain opacity-90" alt="">
@@ -651,7 +659,7 @@ $slides = [
                 <img src="assets/images/flags/6.png" class="h-24 object-contain opacity-90" alt="">
                 <img src="assets/images/flags/7.png" class="h-24 object-contain opacity-90" alt="">
 
-                 <!-- Duplicate set for infinite scroll -->
+                <!-- Duplicate set for infinite scroll -->
                 <img src="assets/images/flags/1.png" class="h-24 object-contain opacity-90" alt="">
                 <img src="assets/images/flags/2.png" class="h-24 object-contain opacity-90" alt="">
                 <img src="assets/images/flags/3.png" class="h-24 object-contain opacity-90" alt="">
@@ -667,15 +675,21 @@ $slides = [
 
 <!-- Tailwind Custom Animation -->
 <style>
-@keyframes scrollInfinite {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-.animate-scroll-infinite {
-    display: flex;
-    width: max-content;
-    animation: scrollInfinite 25s linear infinite;
-}
+    @keyframes scrollInfinite {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .animate-scroll-infinite {
+        display: flex;
+        width: max-content;
+        animation: scrollInfinite 25s linear infinite;
+    }
 </style>
 
 

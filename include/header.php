@@ -77,27 +77,39 @@
                 <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-white"></i>
             </div>
             <nav class="flex bg-white/10">
-                <a href="index1.php" class="px-6 py-5   hover:text-primary font-medium">HOME</a>
-                <a href="about.php" class="px-6 py-5  bg-white/20 text-white hover:text-primary font-medium">ABOUT US</a>
-
-                <div class="group relative px-6 py-5 bg-white/30 text-white hover:text-primary font-medium">
+                <a href="index.php" class="px-6 py-5   hover:text-primary font-medium">HOME</a>
+                <div class="group relative px-6 py-5 bg-white/20 text-white hover:text-primary font-medium">
                     <button class="flex items-center gap-2">
-                        OUR PRODUCTS
+                        THE COMPANY
                         <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                         </svg>
                     </button>
                     <div class="absolute left-0 mt-0 w-full bg-dark border border-accent hidden group-hover:block shadow-lg z-50">
-                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">QUARRYING WIRE SAW</a>
-                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">DIAMOND WIRE SAW</a>
-                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">MONO(STATIONARY) WIRE</a>
-                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">SQUARING WIRE SAW</a>
-                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">PROFILING WIRESAW</a>
-                        <a href="#" class="block px-4 py-3 hover:bg-white/10 text-white">DIAMOND WIRESAW BEADS</a>
+                        <a href="about.php" class="block px-4 py-3 hover:bg-white/10 text-white">About Us</a>
+                        <a href="clients.php" class="block px-4 py-3 hover:bg-white/10 text-white">Our Clients</a>
+                        <a href="infrastructure.php" class="block px-4 py-3 hover:bg-white/10 text-white">Infrastructure</a>
+                        <a href="careers.php" class="block px-4 py-3 hover:bg-white/10 text-white">Careers</a>
                     </div>
                 </div>
 
-                <a href="#" class="px-6 py-5  bg-white/40  text-white hover:text-primary font-medium">IMPORT/EXPORT</a>
+                <div class="group relative px-6 py-5 bg-white/40 text-white hover:text-primary font-medium">
+                    <button class="flex items-center gap-2">
+                        PRODUCTS
+                        <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </button>
+                    <div class="absolute left-0 mt-0 w-full bg-dark border border-accent hidden group-hover:block shadow-lg z-50">
+                        <a href="product.php?product=quarrying-wire-saw" class="block px-4 py-3 hover:bg-white/10 text-white">Quarrying Wire Saw</a>
+                        <a href="product.php?product=diamond-wire-saw" class="block px-4 py-3 hover:bg-white/10 text-white">Diamond Wire Saw</a>
+                        <a href="product.php?product=mono-wire" class="block px-4 py-3 hover:bg-white/10 text-white">Mono (Stationary) Wire</a>
+                        <a href="product.php?product=diamond-beads" class="block px-4 py-3 hover:bg-white/10 text-white">Diamond Beads</a>
+                        <a href="products.php" class="block px-4 py-3 hover:bg-white/10 text-white">All Products</a>
+                    </div>
+                </div>
+
+                <a href="import-export.php" class="px-6 py-5 bg-white/50 hover:text-primary font-medium">IMPORT & EXPORT</a>
                 <a class="group relative px-6 py-5 overflow-hidden bg-primary transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]" href="contact.php">
                     <span class="relative z-10 flex items-center space-x-3">
                         <span class="text-sm tracking-[0.25em] font-medium text-white font-tagline">CONTACT US</span>
